@@ -15,8 +15,8 @@
     <string name="series_movie_nav_menu">Series</string>
     <string name="options_movie_nav_menu">Options</string>
 
-    <string name="popular_movie_nav_menu">Popular</string>
-    <string name="playing_movie_nav_menu">Now Playing</string>
+    <string name="popular_movie_nav_menu"> Popular</string>
+    <string name="playing_movie_nav_menu"> Now Playing</string>
     <string name="upcoming_movie_nav_menu">Upcoming</string>
     <string name="rated_movie_nav_menu">Top Rated</string>
 
