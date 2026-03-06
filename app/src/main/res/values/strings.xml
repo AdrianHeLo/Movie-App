@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">MovieApp</string>
 
+    <string name="app_name_version_fragment_about"><a href="https://github.com/AdrianHeLo/Movie-App-V2">Movie App v2.0.0</a></string>
+    <string name="mission_fragment_about">Mission</string>
+    <string name="mission_description_fragment_about">Millions of movies, TV shows and people to discover. Your gateway to the seventh art...</string>
+    <string name="attributes_fragment_about">This application uses the <a href="https://www.themoviedb.org">TMDb</a> API.</string>
+    <string name="author_fragment_about">Adrian Hernandez</string>
+    <string name="job_fragment_about">Android Developer</string>
+
     <string name="close">close</string>
     <string name="open">open</string>
 

@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        //setDisplayMenuNav(drawerLayout,toggle,toolbar)
         navView.setNavigationItemSelectedListener {
             it.isChecked = true
             when(it.itemId){
@@ -72,14 +71,6 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-    /*
-    private fun setDisplayMenuNav(itemDrawerLayout: DrawerLayout, itemToggle: ActionBarDrawerToggle, itemToolbar: Toolbar){
-        itemToggle = ActionBarDrawerToggle(this, itemDrawerLayout, itemToolbar, R.string.open, R.string.close)
-        drawerLayout.addDrawerListener(itemToggle)
-        itemToggle.syncState()
-    }
-    */
 
     private fun loadFragment(fragment: Fragment, tittle: String){
         val fragmentManager = supportFragmentManager

@@ -25,7 +25,6 @@ class MovieAdapter: RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
             itemListBinding.tittleMovieItemList.text = movie.movieTittle
             itemListBinding.averageMovieItemList.text = movie.movieVoteAverage.toString()
             val imageUrl = "https://image.tmdb.org/t/p/w500${movie.moviePosterPath}"
-
             Glide.with(itemListBinding.imageMovieItemList.context)
                 .load(imageUrl)
                 .into(itemListBinding.imageMovieItemList)
