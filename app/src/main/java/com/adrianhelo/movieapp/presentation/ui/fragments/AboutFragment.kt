@@ -18,12 +18,6 @@ class AboutFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding = FragmentAboutBinding.inflate(inflater, container, false)
-
-        val linkTmdb = binding.tmdbAttributesFragmentAbout.text
-        var linkGit = binding.versionFragmentAbout.text
-
-
-
         return binding.root
     }
 }
