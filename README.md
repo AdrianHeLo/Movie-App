@@ -11,14 +11,11 @@
 
 ## 🚀 Características
 - Interfaz de usuario limpia e intuitiva.
-- Desarrollada con Java.
 - API´s Rest.
 - Sigue las mejores prácticas de Android.
 
 ## 🛠️ Tecnología utilizada
-- Android SDK
 - Kotlin
-- Gradle
 - API´s Rests
 - LiveData y DataBinding
 - Arquitectura MVVM
