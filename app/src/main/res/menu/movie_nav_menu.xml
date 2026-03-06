@@ -11,28 +11,35 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/popular_movie_nav_menu"
+                    android:icon="@drawable/ic_recommend"
                     android:title="@string/popular_movie_nav_menu"/>
                 <item
                     android:id="@+id/playing_movie_nav_menu"
+                    android:icon="@drawable/ic_play_circle_outline"
                     android:title="@string/playing_movie_nav_menu"/>
                 <item
                     android:id="@+id/upcoming_movie_nav_menu"
+                    android:icon="@drawable/ic_upcoming"
                     android:title="@string/upcoming_movie_nav_menu"/>
                 <item
                     android:id="@+id/rated_movie_nav_menu"
+                    android:icon="@drawable/ic_star_rate"
                     android:title="@string/rated_movie_nav_menu"/>
             </group>
         </menu>
     </item>
 
-    <item android:title="@string/options_movie_nav_menu">
+    <item
+        android:title="@string/options_movie_nav_menu">
         <menu>
             <group>
                 <item
                     android:id="@+id/about_options_movie_nav_menu"
+                    android:icon="@drawable/ic_info_outline"
                     android:title="@string/about_options_movie_nav_menu"/>
                 <item
                     android:id="@+id/settings_options_movie_nav_menu"
+                    android:icon="@drawable/ic_settings"
                     android:title="@string/settings_options_movie_nav_menu"/>
             </group>
         </menu>
