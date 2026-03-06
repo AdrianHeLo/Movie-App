@@ -1,12 +1,12 @@
 # Movie App
 
 ## 🎯 Objetivo del proyecto
-- Refactorizacíon de codigo en Kotlin
-- Mejorar la interfaz en base a la version anterior.
+- Refactorizacíon de codigo en Kotlin de la version previa (The Movie App with Java).
+- Mejorar la interfaz.
 - Ve las reseñas de las peliculas y series del momento usando los servicios de TheMovieDatabase.
 - Implementación de LiveData y DataBinding.
-- Tenga arquitectura clara.
-- Kotlin + MVVM.
+- Tenga Clean Architecture.
+- MVVM.
 - Sea fácil de mantener y extender.
 
 ## 🚀 Características
