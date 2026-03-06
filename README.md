@@ -1,4 +1,4 @@
-# Movie-App-V2
+# Movie App
 
 ## 🎯 Objetivo del proyecto
 - Refactorizacíon de codigo en Kotlin
