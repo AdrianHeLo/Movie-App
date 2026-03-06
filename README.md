@@ -25,7 +25,7 @@
 
 ## 📌 Mejoras futuras
 - Agregar sección de series.
-- Agregar menus de configuracion de la app (color de fondo, idioma, horario, region).
+- Agregar vista de cada de película/serie.
 
 ## 📱 Screenshots
 <p align="center">
