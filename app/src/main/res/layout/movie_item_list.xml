@@ -34,10 +34,10 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
 
             <TextView
-                android:id="@+id/tittle_movie_item_list"
+                android:id="@+id/title_movie_item_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{movie.movieTittle}"
+                android:text="@{movie.movieTitle}"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -55,7 +55,7 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textAlignment="center"
-                app:layout_constraintTop_toBottomOf="@+id/tittle_movie_item_list"
+                app:layout_constraintTop_toBottomOf="@+id/title_movie_item_list"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 

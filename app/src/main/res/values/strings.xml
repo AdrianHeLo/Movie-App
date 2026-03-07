@@ -15,10 +15,15 @@
     <string name="series_movie_nav_menu">Series</string>
     <string name="options_movie_nav_menu">Options</string>
 
-    <string name="popular_movie_nav_menu"> Popular</string>
-    <string name="playing_movie_nav_menu"> Now Playing</string>
+    <string name="popular_movie_nav_menu">Popular</string>
+    <string name="playing_movie_nav_menu">Now Playing</string>
     <string name="upcoming_movie_nav_menu">Upcoming</string>
     <string name="rated_movie_nav_menu">Top Rated</string>
+
+    <string name="popular_series_nav_menu">Popular</string>
+    <string name="airing_today_series_nav_menu">Airing Today</string>
+    <string name="on_the_air_series_nav_menu">On The Air</string>
+    <string name="rated_series_nav_menu">Top Rated</string>
 
     <string name="about_options_movie_nav_menu">About</string>
     <string name="settings_options_movie_nav_menu">Settings</string>

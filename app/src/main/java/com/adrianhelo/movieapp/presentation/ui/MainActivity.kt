@@ -29,6 +29,8 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
+        val bundle = Bundle()
+
         drawerLayout = findViewById(R.id.drawer_nav_view)
         toolbar = findViewById(R.id.toolbar)
         navView = findViewById(R.id.nav_view_container)
@@ -53,6 +55,22 @@ class MainActivity : AppCompatActivity() {
                 R.id.rated_movie_nav_menu -> {
                     loadFragment(RatedFragment(), it.title.toString())
                 }
+                R.id.popular_series_nav_menu -> {
+                    bundle.putString("Query", "Series")
+                    replaceFragment(PopularFragment(), bundle, it.title.toString())
+                }
+                R.id.rated_series_nav_menu -> {
+                    bundle.putString("Query", "Series")
+                    replaceFragment(RatedFragment(), bundle, it.title.toString())
+                }
+                R.id.playing_series_nav_menu -> {
+                    bundle.putString("Query", "Series")
+                    replaceFragment(PlayingFragment(), bundle, it.title.toString())
+                }
+                R.id.upcoming_series_nav_menu -> {
+                    bundle.putString("Query", "Series")
+                    replaceFragment(UpcomingFragment(), bundle, it.title.toString())
+                }
                 R.id.about_options_movie_nav_menu -> {
                     loadFragment(AboutFragment(), it.title.toString())
                 }
@@ -72,12 +90,19 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun loadFragment(fragment: Fragment, tittle: String){
+    private fun replaceFragment(fragment: Fragment, bundle: Bundle, name: String){
+        fragment.arguments = bundle
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
+        drawerLayout.closeDrawers()
+        title = name
+    }
+
+    private fun loadFragment(fragment: Fragment, name: String){
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fragment_container, fragment)
         fragmentTransaction.commit()
         drawerLayout.closeDrawers()
-        title = tittle
+        title = name
     }
 }

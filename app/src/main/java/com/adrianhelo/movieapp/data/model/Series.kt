@@ -3,28 +3,28 @@ package com.adrianhelo.movieapp.data.model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class Movie(
+data class Series(
     @SerializedName("id")
     @Expose
-    val movieId: Int,
+    val seriesId: Int,
 
     @SerializedName("overview")
     @Expose
-    val movieOverview: String,
+    val seriesOverview: String,
 
     @SerializedName("poster_path")
     @Expose
-    val moviePosterPath: String,
+    val seriesPosterPath: String,
 
     @SerializedName("release_date")
     @Expose
-    val movieReleaseDate: String,
+    val seriesReleaseDate: String,
 
-    @SerializedName("title")
+    @SerializedName("name")
     @Expose
-    val movieTitle: String,
+    val seriesName: String,
 
     @SerializedName("vote_average")
     @Expose
-    val movieVoteAverage: Double
+    val seriesVoteAverage: Double
 )
