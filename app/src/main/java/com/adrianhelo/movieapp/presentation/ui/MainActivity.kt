@@ -62,7 +62,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.rated_series_nav_menu -> {
                     bundle.putString("Query", "Series")
-                    Log.i("MainActivity", bundle.toString())
                     replaceFragment(RatedFragment(), bundle, it.title.toString())
                 }
                 R.id.playing_series_nav_menu -> {
