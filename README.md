@@ -27,8 +27,9 @@
 
 ## 📱 Screenshots
 <p align="center">
-  <img src="app/src/main/res/drawable/img.png" width="250"/>
-  <img src="app/src/main/res/drawable/img_1.png" width="250"/>
+  <img src="app/src/main/res/raw/home_screenshot.png" width="250"/>
+  <img src="app/src/main/res/raw/menu_screenshot.png" width="250"/>
+  <img src="app/src/main/res/raw/about_screenshot.png" width="250"/>
 </p>
 
 ## 🎥 Demo
