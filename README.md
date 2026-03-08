@@ -34,8 +34,8 @@
 
 ## 🎥 Demo
 <p align="center">
-  <a href="https://youtu.be/demo">
-    <img src="images/video-preview.png" width="400"/>
+  <a href="https://media.giphy.com/media/PQFodF2AKia4dI7qnZ/giphy.gif">
+    <img src="app/src/main/res/raw/home_screenshot.png" width="400"/>
   </a>
 </p>
 
