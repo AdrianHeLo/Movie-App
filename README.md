@@ -23,7 +23,6 @@
 
 ## 📌 Mejoras futuras
 - Agregar vista de cada de película/serie.
-- Animacion al arrancar la app.
 - Agregar SearchView para busqueda de películas/series.
 
 ## 📱 Screenshots
