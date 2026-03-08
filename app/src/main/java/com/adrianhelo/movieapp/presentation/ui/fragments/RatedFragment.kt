@@ -1,6 +1,7 @@
 package com.adrianhelo.movieapp.presentation.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +31,7 @@ class RatedFragment : Fragment() {
         binding = FragmentRatedBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
 
-        val bundle = arguments?.getBundle("Query")
+        val bundle = arguments?.getString("Query")
 
         if (bundle != null){
             displaySeriesView()

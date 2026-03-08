@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.adrianhelo.movieapp.data.model.Movie
 import com.adrianhelo.movieapp.data.model.Series
 import com.adrianhelo.movieapp.data.repository.MoviesRepository
 import kotlinx.coroutines.launch

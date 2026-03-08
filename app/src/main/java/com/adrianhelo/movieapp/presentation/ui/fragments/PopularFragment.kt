@@ -30,9 +30,7 @@ class PopularFragment : Fragment() {
         binding = FragmentPopularBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
 
-
         var bundle = arguments?.getString("Query")
-
 
         if (bundle != null){
             displaySeriesView()

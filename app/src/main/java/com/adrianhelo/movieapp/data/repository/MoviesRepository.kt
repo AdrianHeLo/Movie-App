@@ -1,7 +1,5 @@
 package com.adrianhelo.movieapp.data.repository
 
-import android.app.Application
-import androidx.core.R
 import com.adrianhelo.movieapp.data.remote.RetrofitInstance
 
 class MoviesRepository {

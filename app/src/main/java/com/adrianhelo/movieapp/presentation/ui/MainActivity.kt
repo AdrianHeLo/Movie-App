@@ -1,6 +1,7 @@
 package com.adrianhelo.movieapp.presentation.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -61,6 +62,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.rated_series_nav_menu -> {
                     bundle.putString("Query", "Series")
+                    Log.i("MainActivity", bundle.toString())
                     replaceFragment(RatedFragment(), bundle, it.title.toString())
                 }
                 R.id.playing_series_nav_menu -> {

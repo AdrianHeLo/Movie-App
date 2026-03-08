@@ -61,48 +61,4 @@ class MovieViewModel: ViewModel() {
             _isLoading.value = false
         }
     }
-
-    fun getPopularSeries(apiKey: String){
-        viewModelScope.launch {
-            _isLoading.value = true
-            val response = repository.getPopularSeries(apiKey)
-            if (response.isSuccessful){
-                _series.value = response.body()?.results
-            }
-            _isLoading.value = false
-        }
-    }
-
-    fun getTopRatedSeries(apiKey: String){
-        viewModelScope.launch {
-            _isLoading.value = true
-            val response = repository.getTopRatedSeries(apiKey)
-            if (response.isSuccessful){
-                _series.value = response.body()?.results
-            }
-            _isLoading.value = false
-        }
-    }
-
-    fun getOnAirSeries(apiKey: String){
-        viewModelScope.launch {
-            _isLoading.value = true
-            val response = repository.getOnAirSeries(apiKey)
-            if (response.isSuccessful){
-                _series.value = response.body()?.results
-            }
-            _isLoading.value = false
-        }
-    }
-
-    fun getOnAiringSeries(apiKey: String){
-        viewModelScope.launch {
-            _isLoading.value = true
-            val response = repository.getOnAiringSeries(apiKey)
-            if (response.isSuccessful){
-                _series.value = response.body()?.results
-            }
-            _isLoading.value = false
-        }
-    }
 }
