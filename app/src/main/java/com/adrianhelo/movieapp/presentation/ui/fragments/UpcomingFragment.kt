@@ -11,39 +11,65 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.adrianhelo.movieapp.R
 import com.adrianhelo.movieapp.databinding.FragmentUpcomingBinding
 import com.adrianhelo.movieapp.presentation.adapter.MovieAdapter
-import com.adrianhelo.movieapp.presentation.viewmodel.MoviesViewModel
+import com.adrianhelo.movieapp.presentation.adapter.SeriesAdapter
+import com.adrianhelo.movieapp.presentation.viewmodel.MovieViewModel
+import com.adrianhelo.movieapp.presentation.viewmodel.SeriesViewModel
 
 class UpcomingFragment : Fragment() {
 
     private lateinit var upcomingBinding: FragmentUpcomingBinding
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private val viewModel: MoviesViewModel by viewModels()
+    private val movieViewModel: MovieViewModel by viewModels()
+    private val seriesViewModel: SeriesViewModel by viewModels()
     private val movieAdapter = MovieAdapter()
+    private val seriesAdapter = SeriesAdapter()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         upcomingBinding = FragmentUpcomingBinding.inflate(inflater, container, false)
         upcomingBinding.lifecycleOwner = viewLifecycleOwner
-        displayRecyclerView()
-        viewModel.movies.observe(viewLifecycleOwner){
-            movieAdapter.submitList(it)
+
+        var bundle = arguments?.getString("Query")
+
+        if (bundle != null){
+            displaySeriesView()
+            seriesViewModel.series.observe(viewLifecycleOwner){
+                seriesAdapter.submitList(it)
+            }
+            seriesViewModel.getOnAirSeries(getString(R.string.api_key))
+        }else{
+            displayMoviesView()
+            movieViewModel.movies.observe(viewLifecycleOwner){
+                movieAdapter.submitList(it)
+            }
+            movieViewModel.getUpcomingMovies(getString(R.string.api_key))
         }
-        viewModel.getUpcomingMovies(getString(R.string.api_key))
 
         swipeRefreshLayout = upcomingBinding.upcomingSwipeRefreshContainer
-        viewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+        movieViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            swipeRefreshLayout.isRefreshing = isLoading
+        }
+        seriesViewModel.isLoading.observe(viewLifecycleOwner){isLoading ->
             swipeRefreshLayout.isRefreshing = isLoading
         }
         swipeRefreshLayout.setOnRefreshListener {
-            viewModel.getUpcomingMovies(getString(R.string.api_key))
+            if (bundle != null){
+                seriesViewModel.getOnAirSeries(getString(R.string.api_key))
+            }else{
+                movieViewModel.getUpcomingMovies(getString(R.string.api_key))
+            }
         }
         return upcomingBinding.root
     }
 
-    private fun displayRecyclerView() {
+    private fun displayMoviesView() {
         upcomingBinding.upcomingFragmentRecyclerView.adapter = movieAdapter
+        upcomingBinding.upcomingFragmentRecyclerView.setLayoutManager(GridLayoutManager(requireContext(), 2))
+    }
+
+    private fun displaySeriesView() {
+        upcomingBinding.upcomingFragmentRecyclerView.adapter = seriesAdapter
         upcomingBinding.upcomingFragmentRecyclerView.setLayoutManager(GridLayoutManager(requireContext(), 2))
     }
 

@@ -8,7 +8,7 @@
         <data>
             <variable
                 name="viewModel"
-                type="com.adrianhelo.movieapp.presentation.viewmodel.MoviesViewModel" />
+                type="com.adrianhelo.movieapp.presentation.viewmodel.MovieViewModel" />
         </data>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
