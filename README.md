@@ -15,14 +15,16 @@
 - Sigue las mejores prácticas de Android.
 
 ## 🛠️ Tecnología utilizada
-- Kotlin
 - API´s Rests
 - LiveData y DataBinding
 - Arquitectura MVVM
+- Glide.
+- Lottie. 
 
 ## 📌 Mejoras futuras
-- Agregar sección de series.
 - Agregar vista de cada de película/serie.
+- Animacion al arrancar la app.
+- Agregar SearchView para busqueda de películas/series.
 
 ## 📱 Screenshots
 <p align="center">
