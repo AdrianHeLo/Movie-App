@@ -34,9 +34,7 @@
 
 ## 🎥 Demo
 <p align="center">
-  <a href="https://media.giphy.com/media/PQFodF2AKia4dI7qnZ/giphy.gif">
-    <img src="app/src/main/res/raw/home_screenshot.png" width="400"/>
-  </a>
+  <img src="https://github.com/AdrianHeLo/Movie-App/blob/main/app/src/main/res/raw/Movie%20App%20Demo.gif" width="400"/>
 </p>
 
 ## 👤 Autor
