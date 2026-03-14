@@ -1,6 +1,7 @@
 package com.adrianhelo.movieapp.data.repository
 
 import com.adrianhelo.movieapp.data.remote.RetrofitInstance
+import retrofit2.http.Query
 
 class MoviesRepository {
 
@@ -9,6 +10,7 @@ class MoviesRepository {
         suspend fun getUpcomingMovies(apiKey: String) = RetrofitInstance.api.getUpcomingMovies(apiKey)
         suspend fun getNowPlayingMovies(apiKey: String) = RetrofitInstance.api.getNowPlayingMovies(apiKey)
         suspend fun getTopRatedMovies(apiKey: String) = RetrofitInstance.api.getTopRatedMovies(apiKey)
+        suspend fun getMovie(apiKey: String, query: String) = RetrofitInstance.api.getMovie(apiKey, query)
 
         //Methods of Series
         suspend fun getPopularSeries(apiKey: String) = RetrofitInstance.api.getPopularSeries(apiKey)

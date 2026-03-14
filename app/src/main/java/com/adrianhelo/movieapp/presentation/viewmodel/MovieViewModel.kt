@@ -8,13 +8,15 @@ import com.adrianhelo.movieapp.data.model.Movie
 import com.adrianhelo.movieapp.data.model.Series
 import com.adrianhelo.movieapp.data.repository.MoviesRepository
 import kotlinx.coroutines.launch
+import retrofit2.http.Query
 
 class MovieViewModel: ViewModel() {
+
     private val repository = MoviesRepository()
     private val _movies  = MutableLiveData<List<Movie>>()
     val movies: LiveData<List<Movie>> = _movies
-    private val _series  = MutableLiveData<List<Series>>()
-    val series: LiveData<List<Series>> = _series
+    private val _searchMovies  = MutableLiveData<List<Movie>>()
+    val searchMovies: LiveData<List<Movie>> = _searchMovies
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -57,6 +59,17 @@ class MovieViewModel: ViewModel() {
             val response = repository.getNowPlayingMovies(apiKey)
             if (response.isSuccessful){
                 _movies.value = response.body()?.results
+            }
+            _isLoading.value = false
+        }
+    }
+
+    fun getMovie(apiKey: String, query: String){
+        viewModelScope.launch {
+            _isLoading.value = true
+            val response = repository.getMovie(apiKey, query)
+            if (response.isSuccessful){
+                _searchMovies.value = response.body()?.results
             }
             _isLoading.value = false
         }
