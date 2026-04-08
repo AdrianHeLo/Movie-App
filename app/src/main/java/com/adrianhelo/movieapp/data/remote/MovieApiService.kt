@@ -1,5 +1,6 @@
 package com.adrianhelo.movieapp.data.remote
 
+import com.adrianhelo.movieapp.data.model.MediaResponse
 import com.adrianhelo.movieapp.data.model.MovieResponse
 import com.adrianhelo.movieapp.data.model.SeriesResponse
 import retrofit2.Response
@@ -25,6 +26,6 @@ interface MovieApiService {
     @GET("tv/top_rated")
     suspend fun getTopRatedSeries(@Query("api_key") apiKey: String): Response<SeriesResponse>
 
-    @GET("search/movie")
-    suspend fun searchMulti(@Query("api_key") apiKey: String, @Query("query") query: String): Response<MovieResponse>
+    @GET("search/multi")
+    suspend fun searchMulti(@Query("api_key") apiKey: String, @Query("query") query: String): Response<MediaResponse>
 }

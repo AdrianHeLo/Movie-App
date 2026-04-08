@@ -16,9 +16,6 @@ class SeriesViewModel: ViewModel() {
     private val _series = MutableLiveData<List<Series>>()
     val series: LiveData<List<Series>> = _series
 
-    private val _searchSeries  = MutableLiveData<List<Movie>>()
-    val searchSeries: LiveData<List<Movie>> = _searchSeries
-
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -65,4 +62,4 @@ class SeriesViewModel: ViewModel() {
             _isLoading.value = false
         }
     }
-    }
+}

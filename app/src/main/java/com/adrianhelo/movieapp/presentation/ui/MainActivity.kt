@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.adrianhelo.movieapp.R
 import com.adrianhelo.movieapp.databinding.ActivityMainBinding
+import com.adrianhelo.movieapp.presentation.adapter.MediaAdapter
 import com.adrianhelo.movieapp.presentation.adapter.MovieAdapter
 import com.adrianhelo.movieapp.presentation.ui.fragments.AboutFragment
 import com.adrianhelo.movieapp.presentation.ui.fragments.PopularFragment
@@ -22,7 +23,7 @@ import com.adrianhelo.movieapp.presentation.ui.fragments.PlayingFragment
 import com.adrianhelo.movieapp.presentation.ui.fragments.RatedFragment
 import com.adrianhelo.movieapp.presentation.ui.fragments.SettingsFragment
 import com.adrianhelo.movieapp.presentation.ui.fragments.UpcomingFragment
-import com.adrianhelo.movieapp.presentation.viewmodel.MovieViewModel
+import com.adrianhelo.movieapp.presentation.viewmodel.MediaViewModel
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
@@ -33,8 +34,8 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private lateinit var toolbar: Toolbar
     private lateinit var navView: NavigationView
 
-    private val searchViewModel: MovieViewModel by viewModels()
-    private var movieAdapter = MovieAdapter()
+    private val mediaViewModel: MediaViewModel by viewModels()
+    private var mediaAdapter = MediaAdapter()
     private var isTextChanged: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,10 +44,10 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.recyclerContainer.adapter = movieAdapter
+        binding.recyclerContainer.adapter = mediaAdapter
         binding.recyclerContainer.setLayoutManager(GridLayoutManager(this, 2))
-        searchViewModel.searchMulti.observe(this){
-            movieAdapter.submitList(it)
+        mediaViewModel.searchMulti.observe(this){
+            mediaAdapter.submitList(it)
         }
 
         val bundle = Bundle()
@@ -146,7 +147,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         if (isTextChanged){
             binding.fragmentContainer.visibility = View.GONE
             binding.recyclerContainer.visibility = View.VISIBLE
-            searchViewModel.searchMulti(getString(R.string.api_key), newText ?: "")
+            mediaViewModel.searchMulti(getString(R.string.api_key), newText ?: "")
         }else{
             binding.fragmentContainer.visibility = View.VISIBLE
             binding.recyclerContainer.visibility = View.GONE
