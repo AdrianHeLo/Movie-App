@@ -26,5 +26,5 @@ interface MovieApiService {
     suspend fun getTopRatedSeries(@Query("api_key") apiKey: String): Response<SeriesResponse>
 
     @GET("search/movie")
-    suspend fun getMovie(@Query("api_key") apiKey: String, @Query("query") query: String): Response<MovieResponse>
+    suspend fun searchMulti(@Query("api_key") apiKey: String, @Query("query") query: String): Response<MovieResponse>
 }

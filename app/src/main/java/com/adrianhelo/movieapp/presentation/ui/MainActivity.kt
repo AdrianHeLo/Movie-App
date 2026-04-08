@@ -1,10 +1,9 @@
 package com.adrianhelo.movieapp.presentation.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -13,8 +12,9 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.GridLayoutManager
 import com.adrianhelo.movieapp.R
+import com.adrianhelo.movieapp.databinding.ActivityMainBinding
 import com.adrianhelo.movieapp.presentation.adapter.MovieAdapter
 import com.adrianhelo.movieapp.presentation.ui.fragments.AboutFragment
 import com.adrianhelo.movieapp.presentation.ui.fragments.PopularFragment
@@ -27,25 +27,34 @@ import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
+    private lateinit var binding: ActivityMainBinding
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var toolbar: Toolbar
     private lateinit var navView: NavigationView
-    private lateinit var recyclerView: RecyclerView
 
-    private val movieViewModel: MovieViewModel by viewModels()
+    private val searchViewModel: MovieViewModel by viewModels()
     private var movieAdapter = MovieAdapter()
+    private var isTextChanged: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.recyclerContainer.adapter = movieAdapter
+        binding.recyclerContainer.setLayoutManager(GridLayoutManager(this, 2))
+        searchViewModel.searchMulti.observe(this){
+            movieAdapter.submitList(it)
+        }
 
         val bundle = Bundle()
 
         drawerLayout = findViewById(R.id.drawer_nav_view)
         toolbar = findViewById(R.id.toolbar)
         navView = findViewById(R.id.nav_view_container)
+
         setSupportActionBar(toolbar)
 
         toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close)
@@ -103,10 +112,12 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
+
         val searchItem = menu?.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as SearchView
-        searchView.isSubmitButtonEnabled = false
         searchView.setOnQueryTextListener(this)
+        searchView.isSubmitButtonEnabled
+
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -131,16 +142,16 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        if (newText != null){
-            recyclerView = findViewById(R.id.recycler_container)
-            recyclerView.adapter = movieAdapter
-            movieViewModel.searchMovies.observe(this){
-                movieAdapter.submitList(it)
-            }
-            movieViewModel.getMovie(getString(R.string.api_key) , newText)
-            Log.i("MainActivity", movieViewModel.getMovie(getString(R.string.api_key) , newText).toString())
-            Log.i("MainActivity", movieViewModel.searchMovies.toString())
+        isTextChanged = !newText.isNullOrEmpty()
+        if (isTextChanged){
+            binding.fragmentContainer.visibility = View.GONE
+            binding.recyclerContainer.visibility = View.VISIBLE
+            searchViewModel.searchMulti(getString(R.string.api_key), newText ?: "")
+        }else{
+            binding.fragmentContainer.visibility = View.VISIBLE
+            binding.recyclerContainer.visibility = View.GONE
         }
         return true
     }
+
 }

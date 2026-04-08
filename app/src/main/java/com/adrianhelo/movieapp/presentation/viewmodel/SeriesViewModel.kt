@@ -1,17 +1,24 @@
 package com.adrianhelo.movieapp.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.adrianhelo.movieapp.data.model.Movie
 import com.adrianhelo.movieapp.data.model.Series
 import com.adrianhelo.movieapp.data.repository.MoviesRepository
 import kotlinx.coroutines.launch
 
 class SeriesViewModel: ViewModel() {
     private val repository = MoviesRepository()
+
     private val _series = MutableLiveData<List<Series>>()
     val series: LiveData<List<Series>> = _series
+
+    private val _searchSeries  = MutableLiveData<List<Movie>>()
+    val searchSeries: LiveData<List<Movie>> = _searchSeries
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -58,4 +65,4 @@ class SeriesViewModel: ViewModel() {
             _isLoading.value = false
         }
     }
-}
+    }

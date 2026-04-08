@@ -1,22 +1,24 @@
 package com.adrianhelo.movieapp.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adrianhelo.movieapp.data.model.Movie
-import com.adrianhelo.movieapp.data.model.Series
 import com.adrianhelo.movieapp.data.repository.MoviesRepository
 import kotlinx.coroutines.launch
-import retrofit2.http.Query
 
 class MovieViewModel: ViewModel() {
 
     private val repository = MoviesRepository()
+
     private val _movies  = MutableLiveData<List<Movie>>()
     val movies: LiveData<List<Movie>> = _movies
-    private val _searchMovies  = MutableLiveData<List<Movie>>()
-    val searchMovies: LiveData<List<Movie>> = _searchMovies
+
+    private val _searchMulti  = MutableLiveData<List<Movie>>()
+    val searchMulti: LiveData<List<Movie>> = _searchMulti
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -64,14 +66,21 @@ class MovieViewModel: ViewModel() {
         }
     }
 
-    fun getMovie(apiKey: String, query: String){
+    fun searchMulti(apiKey: String, query: String){
+        if(query.isEmpty()) return
+        _isLoading.value = true
         viewModelScope.launch {
-            _isLoading.value = true
-            val response = repository.getMovie(apiKey, query)
-            if (response.isSuccessful){
-                _searchMovies.value = response.body()?.results
+            try {
+                val response = repository.searchMulti(apiKey, query)
+                if (response.isSuccessful){
+                    _searchMulti.postValue(response.body()?.results ?: emptyList())
+                }
+            } catch (e: Exception){
+                Log.e("MainActivity", e.message.toString())
+            }finally {
+                _isLoading.value = false
             }
-            _isLoading.value = false
         }
     }
+
 }
