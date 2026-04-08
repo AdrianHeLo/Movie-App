@@ -16,4 +16,5 @@ class MoviesRepository {
         suspend fun getOnAirSeries(apiKey: String) = RetrofitInstance.api.getOnAirSeries(apiKey)
         suspend fun getOnAiringSeries(apiKey: String) = RetrofitInstance.api.getAiringTodaySeries(apiKey)
 
+        suspend fun searchMulti(apiKey: String, query: String) = RetrofitInstance.api.searchMulti(apiKey, query)
 }

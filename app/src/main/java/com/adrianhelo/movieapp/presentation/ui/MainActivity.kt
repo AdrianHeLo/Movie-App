@@ -1,46 +1,66 @@
 package com.adrianhelo.movieapp.presentation.ui
 
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import com.adrianhelo.movieapp.R
+import com.adrianhelo.movieapp.databinding.ActivityMainBinding
+import com.adrianhelo.movieapp.presentation.adapter.MediaAdapter
+import com.adrianhelo.movieapp.presentation.adapter.MovieAdapter
 import com.adrianhelo.movieapp.presentation.ui.fragments.AboutFragment
 import com.adrianhelo.movieapp.presentation.ui.fragments.PopularFragment
 import com.adrianhelo.movieapp.presentation.ui.fragments.PlayingFragment
 import com.adrianhelo.movieapp.presentation.ui.fragments.RatedFragment
 import com.adrianhelo.movieapp.presentation.ui.fragments.SettingsFragment
 import com.adrianhelo.movieapp.presentation.ui.fragments.UpcomingFragment
+import com.adrianhelo.movieapp.presentation.viewmodel.MediaViewModel
 import com.google.android.material.navigation.NavigationView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
+    private lateinit var binding: ActivityMainBinding
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var toolbar: Toolbar
     private lateinit var navView: NavigationView
 
+    private val mediaViewModel: MediaViewModel by viewModels()
+    private var mediaAdapter = MediaAdapter()
+    private var isTextChanged: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.recyclerContainer.adapter = mediaAdapter
+        binding.recyclerContainer.setLayoutManager(GridLayoutManager(this, 2))
+        mediaViewModel.searchMulti.observe(this){
+            mediaAdapter.submitList(it)
+        }
 
         val bundle = Bundle()
 
         drawerLayout = findViewById(R.id.drawer_nav_view)
         toolbar = findViewById(R.id.toolbar)
         navView = findViewById(R.id.nav_view_container)
+
         setSupportActionBar(toolbar)
 
         toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-
         navView.setNavigationItemSelectedListener {
             it.isChecked = true
             when(it.itemId){
@@ -91,6 +111,17 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+
+        val searchItem = menu?.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
+        searchView.setOnQueryTextListener(this)
+        searchView.isSubmitButtonEnabled
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
     private fun replaceFragment(fragment: Fragment, bundle: Bundle, name: String){
         fragment.arguments = bundle
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
@@ -106,4 +137,22 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.closeDrawers()
         title = name
     }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        isTextChanged = !newText.isNullOrEmpty()
+        if (isTextChanged){
+            binding.fragmentContainer.visibility = View.GONE
+            binding.recyclerContainer.visibility = View.VISIBLE
+            mediaViewModel.searchMulti(getString(R.string.api_key), newText ?: "")
+        }else{
+            binding.fragmentContainer.visibility = View.VISIBLE
+            binding.recyclerContainer.visibility = View.GONE
+        }
+        return true
+    }
+
 }
