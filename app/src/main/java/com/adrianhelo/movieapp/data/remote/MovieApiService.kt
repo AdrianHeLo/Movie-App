@@ -1,10 +1,12 @@
 package com.adrianhelo.movieapp.data.remote
 
 import com.adrianhelo.movieapp.data.model.MediaResponse
+import com.adrianhelo.movieapp.data.model.MovieDetails
 import com.adrianhelo.movieapp.data.model.MovieResponse
 import com.adrianhelo.movieapp.data.model.SeriesResponse
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MovieApiService {
@@ -28,4 +30,7 @@ interface MovieApiService {
 
     @GET("search/multi")
     suspend fun searchMulti(@Query("api_key") apiKey: String, @Query("query") query: String): Response<MediaResponse>
+
+    @GET("movie/{movie_id}")
+    suspend fun getMovieDetails(@Path("movie_id") id: Int, @Query("api_key") apiKey: String): MovieDetails
 }

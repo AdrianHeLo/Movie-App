@@ -63,4 +63,10 @@ class MovieViewModel: ViewModel() {
         }
     }
 
+    fun getMovieDetails(mediaId: Int, apiKey: String){
+        viewModelScope.launch {
+            val response = repository.getMovieDetails(mediaId, apiKey)
+        }
+    }
+
 }

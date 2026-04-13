@@ -2,10 +2,12 @@ package com.adrianhelo.movieapp.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.adrianhelo.movieapp.R
 import com.adrianhelo.movieapp.data.model.Movie
+import com.adrianhelo.movieapp.data.model.MovieDetails
 import com.adrianhelo.movieapp.databinding.MovieItemListBinding
 import com.bumptech.glide.Glide
 
@@ -40,6 +42,9 @@ class MovieAdapter: RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.itemView.setOnClickListener {
+            Toast.makeText(holder.itemView.context, "Movie ID: ${movieList[position].movieId}", Toast.LENGTH_LONG).show()
+        }
         return holder.bind(movieList[position])
     }
 }
