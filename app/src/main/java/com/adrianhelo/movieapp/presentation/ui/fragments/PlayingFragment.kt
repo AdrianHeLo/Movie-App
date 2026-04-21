@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.adrianhelo.movieapp.R
+import com.adrianhelo.movieapp.data.model.Movie
 import com.adrianhelo.movieapp.databinding.FragmentPlayingBinding
 import com.adrianhelo.movieapp.presentation.adapter.MovieAdapter
 import com.adrianhelo.movieapp.presentation.adapter.SeriesAdapter
@@ -19,9 +21,11 @@ class PlayingFragment : Fragment() {
 
     private lateinit var binding: FragmentPlayingBinding
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
     private val movieViewModel: MovieViewModel by viewModels()
     private val seriesViewModel: SeriesViewModel by viewModels()
-    private val movieAdapter = MovieAdapter()
+
+    private lateinit var movieAdapter: MovieAdapter
     private val seriesAdapter = SeriesAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +35,10 @@ class PlayingFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         var bundle = arguments?.getString("Query")
+
+        movieAdapter = MovieAdapter{ movieId ->
+            Toast.makeText(context, "Movie ID: $movieId", Toast.LENGTH_LONG).show()
+        }
 
         if (bundle != null){
             displaySeriesView()
@@ -43,6 +51,7 @@ class PlayingFragment : Fragment() {
             movieViewModel.movies.observe(viewLifecycleOwner){
                 movieAdapter.submitList(it)
             }
+
             movieViewModel.getNowPlayingMovies(getString(R.string.api_key))
         }
 

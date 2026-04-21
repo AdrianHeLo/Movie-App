@@ -1,5 +1,6 @@
 package com.adrianhelo.movieapp.presentation.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -11,10 +12,11 @@ import com.adrianhelo.movieapp.data.model.MovieDetails
 import com.adrianhelo.movieapp.databinding.MovieItemListBinding
 import com.bumptech.glide.Glide
 
-class MovieAdapter: RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+class MovieAdapter(val onMovieClick: (Int)-> Unit): RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
     private var movieList = listOf<Movie>()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun submitList(list: List<Movie>) {
         movieList = list
         notifyDataSetChanged()
@@ -43,7 +45,8 @@ class MovieAdapter: RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.setOnClickListener {
-            Toast.makeText(holder.itemView.context, "Movie ID: ${movieList[position].movieId}", Toast.LENGTH_LONG).show()
+            //Toast.makeText(holder.itemView.context, "Movie ID: ${movieList[position].movieId}", Toast.LENGTH_LONG).show()
+            onMovieClick(movieList[position].movieId)
         }
         return holder.bind(movieList[position])
     }

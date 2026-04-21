@@ -32,5 +32,5 @@ interface MovieApiService {
     suspend fun searchMulti(@Query("api_key") apiKey: String, @Query("query") query: String): Response<MediaResponse>
 
     @GET("movie/{movie_id}")
-    suspend fun getMovieDetails(@Path("movie_id") id: Int, @Query("api_key") apiKey: String): MovieDetails
+    suspend fun getMovieDetails(@Path("movie_id") id: Int, @Query("api_key") apiKey: String): Response<MovieDetails>
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,7 +22,7 @@ class RatedFragment : Fragment() {
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private val movieViewModel: MovieViewModel by viewModels()
     private val seriesViewModel: SeriesViewModel by viewModels()
-    private val movieAdapter = MovieAdapter()
+    private lateinit var movieAdapter: MovieAdapter
     private val seriesAdapter = SeriesAdapter()
 
     override fun onCreateView(
@@ -31,6 +32,10 @@ class RatedFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         val bundle = arguments?.getString("Query")
+
+        movieAdapter = MovieAdapter{ movieId ->
+            Toast.makeText(context, "Movie ID: $movieId", Toast.LENGTH_LONG).show()
+        }
 
         if (bundle != null){
             displaySeriesView()

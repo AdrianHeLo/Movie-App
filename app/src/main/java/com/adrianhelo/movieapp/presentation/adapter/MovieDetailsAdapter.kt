@@ -45,6 +45,4 @@ class MovieDetailsAdapter: RecyclerView.Adapter<MovieDetailsAdapter.MovieDetails
         val itemPosition = movieDetails[position]
         return holder.bind(itemPosition)
     }
-
-
 }
