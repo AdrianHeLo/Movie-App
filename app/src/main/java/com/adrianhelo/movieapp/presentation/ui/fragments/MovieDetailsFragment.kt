@@ -7,12 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.adrianhelo.movieapp.R
-import com.adrianhelo.movieapp.data.model.MovieDetails
 import com.adrianhelo.movieapp.databinding.MovieDetailsBinding
-import com.adrianhelo.movieapp.presentation.adapter.MovieDetailsAdapter
 import com.adrianhelo.movieapp.presentation.viewmodel.MovieViewModel
 import com.bumptech.glide.Glide
+import kotlin.collections.ArrayList
 
 class MovieDetailsFragment : Fragment() {
 
@@ -35,23 +33,29 @@ class MovieDetailsFragment : Fragment() {
         viewModel.movieDetails.observe(viewLifecycleOwner) { movieDetails ->
 
             Log.d("MOVIE_DETAILS", movieDetails.toString())
-            // AQUÍ ESTÁ EL TRUCO: Pasamos el objeto directamente a la variable del XML
             binding.titleMediaDetails.text = movieDetails?.mediaTitle
             binding.overviewMediaDetails.text = movieDetails?.mediaOverview
-            binding.voteAverageMediaDetails.text = movieDetails?.mediaAverage.toString()
             binding.releaseDateMediaDetails.text = movieDetails?.mediaReleaseDate
             binding.runtimeMediaDetails.text = movieDetails?.mediaRuntime.toString()
             binding.taglineMediaDetails.text = movieDetails?.mediaTagline
 
+            if (movieDetails != null) {
+                val listOfGenres = ArrayList<String>()
+                for (i in 1 until movieDetails.mediaGenres.size){
+                    val item = movieDetails.mediaGenres[i].name
+                    listOfGenres.add(item)
+                }
+                binding.genreMediaDetails.text = listOfGenres.toString()
+            }
+
+            val voteAverage = movieDetails?.mediaAverage
+            val rating = (voteAverage?.div(2))?.toFloat()
+            if (rating != null) {
+                binding.movieRatingBar.rating = rating
+            }
+
             val imageUrl = "https://image.tmdb.org/t/p/w500${movieDetails?.mediaPosterPath}"
             Glide.with(this).load(imageUrl).into(binding.imageMediaDetails)
-
-            // Si tu objeto movieDetails ya trae la lista de géneros:
-            /*
-            if (movieDetails.genres.isNotEmpty()) {
-                binding.gengres = movieDetails.genres[0] // Pasamos el primer género
-            }
-            */
         }
     }
 }

@@ -34,6 +34,7 @@
             android:id="@+id/release_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:text="Release Date: "
             android:textSize="15sp"
             android:textColor="@color/black"
@@ -50,35 +51,30 @@
             app:layout_constraintTop_toTopOf="@+id/release_date"
             app:layout_constraintStart_toEndOf="@+id/release_date"/>
 
-        <TextView
-            android:id="@+id/average"
+        <RatingBar
+            android:id="@+id/movie_rating_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Vote Average: "
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@+id/release_date"
-            app:layout_constraintStart_toStartOf="@+id/release_date"/>
-
-        <TextView
-            android:id="@+id/vote_average_media_details"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="8.75"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toTopOf="@+id/average"
-            app:layout_constraintStart_toEndOf="@+id/average"/>
+            style="@style/Widget.AppCompat.RatingBar.Indicator"
+            android:layout_marginTop="5dp"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:progressTint="#FFD700"
+            android:secondaryProgressTint="#FFD700"
+            android:stepSize="0.1"
+            app:layout_constraintStart_toStartOf="@+id/release_date"
+            app:layout_constraintTop_toBottomOf="@+id/release_date"/>
 
         <TextView
             android:id="@+id/runtime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Runtime: "
+            android:layout_marginTop="5dp"
             android:textSize="15sp"
             android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@+id/average"
-            app:layout_constraintStart_toStartOf="@+id/average"/>
+            app:layout_constraintTop_toBottomOf="@+id/movie_rating_bar"
+            app:layout_constraintStart_toStartOf="@+id/movie_rating_bar"/>
 
         <TextView
             android:id="@+id/runtime_media_details"
@@ -91,37 +87,39 @@
             app:layout_constraintStart_toEndOf="@+id/runtime"/>
 
         <TextView
-            android:id="@+id/gengre"
+            android:id="@+id/genre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gengre: "
+            android:layout_marginTop="5dp"
+            android:text="Genre: "
             android:textSize="15sp"
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@+id/runtime"
             app:layout_constraintStart_toStartOf="@+id/runtime"/>
 
         <TextView
-            android:id="@+id/gengre_media_details"
+            android:id="@+id/genre_media_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Horror"
             android:textSize="15sp"
             android:textColor="@color/black"
-            app:layout_constraintTop_toTopOf="@+id/gengre"
-            app:layout_constraintStart_toEndOf="@+id/gengre"/>
+            app:layout_constraintTop_toBottomOf="@+id/genre"
+            app:layout_constraintStart_toStartOf="@+id/genre"/>
 
         <TextView
             android:id="@+id/tagline_media_details"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="Tag Line"
-            android:textSize="15sp"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"
             android:textColor="@color/black"
             android:textStyle="italic"
-            app:layout_constraintTop_toBottomOf="@+id/gengre"
-            app:layout_constraintStart_toStartOf="@+id/gengre"
-            app:layout_constraintEnd_toEndOf="@+id/title_media_details"
-            app:layout_constraintBottom_toBottomOf="@+id/image_media_details"/>
+            app:layout_constraintTop_toBottomOf="@+id/image_media_details"
+            app:layout_constraintStart_toStartOf="@+id/image_media_details"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
 
         <TextView
@@ -133,8 +131,8 @@
             android:text="Overview"
             android:textSize="15sp"
             android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@+id/image_media_details"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tagline_media_details"
+            app:layout_constraintStart_toStartOf="@+id/image_media_details"
             app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

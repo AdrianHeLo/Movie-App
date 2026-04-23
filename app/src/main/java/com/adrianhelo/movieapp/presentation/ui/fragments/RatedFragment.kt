@@ -30,52 +30,75 @@ class RatedFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentRatedBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
+        swipeRefreshLayout = binding.ratedSwipeRefreshContainer
 
-        val bundle = arguments?.getString("Query")
+        val queryType = arguments?.getString("Query")
 
         movieAdapter = MovieAdapter{ movieId ->
-            Toast.makeText(context, "Movie ID: $movieId", Toast.LENGTH_LONG).show()
+            getMovieId(movieId)
         }
 
-        if (bundle != null){
-            displaySeriesView()
-            seriesViewModel.series.observe(viewLifecycleOwner){
-                seriesAdapter.submitList(it)
-            }
-            seriesViewModel.getTopRatedSeries(getString(R.string.api_key))
+        if (queryType != null){
+            setupSeriesObserver()
         }else{
-            displayMoviesView()
-            movieViewModel.movies.observe(viewLifecycleOwner){
-                movieAdapter.submitList(it)
-            }
-            movieViewModel.getTopRatedMovies(getString(R.string.api_key))
+            setupMoviesObserver()
         }
 
-        swipeRefreshLayout = binding.ratedSwipeRefreshContainer
-        movieViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
-            swipeRefreshLayout.isRefreshing = isLoading
-        }
-        seriesViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
-            swipeRefreshLayout.isRefreshing = isLoading
-        }
-        swipeRefreshLayout.setOnRefreshListener {
-            if (bundle != null){
-                seriesViewModel.getTopRatedSeries(getString(R.string.api_key))
-            }else{
-                movieViewModel.getTopRatedMovies(getString(R.string.api_key))
-            }
-        }
-
+        setupSwipeRefresh(queryType)
         return binding.root
-    }
-
-    private fun displayMoviesView() {
-        binding.ratedFragmentRecyclerView.adapter = movieAdapter
-        binding.ratedFragmentRecyclerView.setLayoutManager(GridLayoutManager(requireContext(), 2))
     }
 
     private fun displaySeriesView() {
         binding.ratedFragmentRecyclerView.adapter = seriesAdapter
         binding.ratedFragmentRecyclerView.setLayoutManager(GridLayoutManager(requireContext(), 2))
+    }
+
+    private fun setupMoviesObserver() {
+        binding.ratedFragmentRecyclerView.adapter = movieAdapter
+        binding.ratedFragmentRecyclerView.setLayoutManager(GridLayoutManager(requireContext(), 2))
+
+        movieViewModel.movies.observe(viewLifecycleOwner){
+            movieAdapter.submitList(it)
+        }
+        movieViewModel.getTopRatedMovies(getString(R.string.api_key))
+
+        movieViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            swipeRefreshLayout.isRefreshing = isLoading
+        }
+    }
+
+    private fun setupSeriesObserver() {
+        binding.ratedFragmentRecyclerView.adapter = seriesAdapter
+        binding.ratedFragmentRecyclerView.setLayoutManager(GridLayoutManager(requireContext(), 2))
+
+        seriesViewModel.series.observe(viewLifecycleOwner){
+            seriesAdapter.submitList(it)
+        }
+        seriesViewModel.getTopRatedSeries(getString(R.string.api_key))
+
+        seriesViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            swipeRefreshLayout.isRefreshing = isLoading
+        }
+    }
+
+    private fun setupSwipeRefresh(queryType: String?) {
+        binding.ratedSwipeRefreshContainer.setOnRefreshListener {
+            if (queryType == "Series") {
+                seriesViewModel.getTopRatedSeries(getString(R.string.api_key))
+            } else {
+                movieViewModel.getTopRatedMovies(getString(R.string.api_key))
+            }
+        }
+    }
+
+    private fun getMovieId(movieID: Int) {
+        val id = Bundle()
+        id.putInt("MOVIE_ID", movieID)
+        val detailFragment = MovieDetailsFragment()
+        detailFragment.arguments = id
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, detailFragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

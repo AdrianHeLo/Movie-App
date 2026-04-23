@@ -30,52 +30,71 @@ class UpcomingFragment : Fragment() {
         // Inflate the layout for this fragment
         upcomingBinding = FragmentUpcomingBinding.inflate(inflater, container, false)
         upcomingBinding.lifecycleOwner = viewLifecycleOwner
+        swipeRefreshLayout = upcomingBinding.upcomingSwipeRefreshContainer
 
-        var bundle = arguments?.getString("Query")
+        val queryType = arguments?.getString("Query")
 
         movieAdapter = MovieAdapter{ movieId ->
-            Toast.makeText(context, "Movie ID: $movieId", Toast.LENGTH_LONG).show()
+            getMovieId(movieId)
         }
 
-        if (bundle != null){
-            displaySeriesView()
-            seriesViewModel.series.observe(viewLifecycleOwner){
-                seriesAdapter.submitList(it)
-            }
-            seriesViewModel.getOnAirSeries(getString(R.string.api_key))
+        if (queryType != null){
+            setupSeriesObserver()
         }else{
-            displayMoviesView()
-            movieViewModel.movies.observe(viewLifecycleOwner){
-                movieAdapter.submitList(it)
-            }
-            movieViewModel.getUpcomingMovies(getString(R.string.api_key))
+            setupMoviesObserver()
         }
 
-        swipeRefreshLayout = upcomingBinding.upcomingSwipeRefreshContainer
-        movieViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
-            swipeRefreshLayout.isRefreshing = isLoading
-        }
-        seriesViewModel.isLoading.observe(viewLifecycleOwner){isLoading ->
-            swipeRefreshLayout.isRefreshing = isLoading
-        }
-        swipeRefreshLayout.setOnRefreshListener {
-            if (bundle != null){
-                seriesViewModel.getOnAirSeries(getString(R.string.api_key))
-            }else{
-                movieViewModel.getUpcomingMovies(getString(R.string.api_key))
-            }
-        }
+        setupSwipeRefresh(queryType)
         return upcomingBinding.root
     }
 
-    private fun displayMoviesView() {
+    private fun setupMoviesObserver() {
         upcomingBinding.upcomingFragmentRecyclerView.adapter = movieAdapter
         upcomingBinding.upcomingFragmentRecyclerView.setLayoutManager(GridLayoutManager(requireContext(), 2))
+
+        movieViewModel.movies.observe(viewLifecycleOwner){
+            movieAdapter.submitList(it)
+        }
+        movieViewModel.getUpcomingMovies(getString(R.string.api_key))
+
+        movieViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            swipeRefreshLayout.isRefreshing = isLoading
+        }
     }
 
-    private fun displaySeriesView() {
+    private fun setupSeriesObserver() {
         upcomingBinding.upcomingFragmentRecyclerView.adapter = seriesAdapter
         upcomingBinding.upcomingFragmentRecyclerView.setLayoutManager(GridLayoutManager(requireContext(), 2))
+
+        seriesViewModel.series.observe(viewLifecycleOwner){
+            seriesAdapter.submitList(it)
+        }
+        seriesViewModel.getOnAirSeries(getString(R.string.api_key))
+
+        seriesViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            swipeRefreshLayout.isRefreshing = isLoading
+        }
+    }
+
+    private fun setupSwipeRefresh(queryType: String?) {
+        swipeRefreshLayout.setOnRefreshListener {
+            if (queryType == "Series") {
+                seriesViewModel.getOnAirSeries(getString(R.string.api_key))
+            } else {
+                movieViewModel.getUpcomingMovies(getString(R.string.api_key))
+            }
+        }
+    }
+
+    private fun getMovieId(movieID: Int){
+        val id = Bundle()
+        id.putInt("MOVIE_ID", movieID)
+        val detailFragment = MovieDetailsFragment()
+        detailFragment.arguments = id
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, detailFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
 }
