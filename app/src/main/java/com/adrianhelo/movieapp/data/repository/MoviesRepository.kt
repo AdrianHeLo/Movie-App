@@ -19,4 +19,5 @@ class MoviesRepository {
         suspend fun searchMulti(apiKey: String, query: String) = RetrofitInstance.api.searchMulti(apiKey, query)
 
         suspend fun getMovieDetails(movieId: Int, apiKey: String) = RetrofitInstance.api.getMovieDetails(movieId, apiKey)
+        suspend fun getSeriesDetails(seriesId: Int, apiKey: String) = RetrofitInstance.api.getSeriesDetails(seriesId, apiKey)
 }

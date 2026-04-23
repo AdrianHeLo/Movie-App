@@ -23,7 +23,7 @@ class RatedFragment : Fragment() {
     private val movieViewModel: MovieViewModel by viewModels()
     private val seriesViewModel: SeriesViewModel by viewModels()
     private lateinit var movieAdapter: MovieAdapter
-    private val seriesAdapter = SeriesAdapter()
+    private lateinit var seriesAdapter: SeriesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -38,6 +38,11 @@ class RatedFragment : Fragment() {
             getMovieId(movieId)
         }
 
+        seriesAdapter = SeriesAdapter { seriesId ->
+            Toast.makeText(context, "SeriesId: $seriesId", Toast.LENGTH_LONG).show()
+            //getSeriesId(seriesId)
+        }
+
         if (queryType != null){
             setupSeriesObserver()
         }else{
@@ -46,11 +51,6 @@ class RatedFragment : Fragment() {
 
         setupSwipeRefresh(queryType)
         return binding.root
-    }
-
-    private fun displaySeriesView() {
-        binding.ratedFragmentRecyclerView.adapter = seriesAdapter
-        binding.ratedFragmentRecyclerView.setLayoutManager(GridLayoutManager(requireContext(), 2))
     }
 
     private fun setupMoviesObserver() {

@@ -23,7 +23,7 @@ class UpcomingFragment : Fragment() {
     private val movieViewModel: MovieViewModel by viewModels()
     private val seriesViewModel: SeriesViewModel by viewModels()
     private lateinit var movieAdapter: MovieAdapter
-    private val seriesAdapter = SeriesAdapter()
+    private lateinit var seriesAdapter: SeriesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,6 +36,11 @@ class UpcomingFragment : Fragment() {
 
         movieAdapter = MovieAdapter{ movieId ->
             getMovieId(movieId)
+        }
+
+        seriesAdapter = SeriesAdapter { seriesId ->
+            Toast.makeText(context, "SeriesId: $seriesId", Toast.LENGTH_LONG).show()
+            //getSeriesId(seriesId)
         }
 
         if (queryType != null){
