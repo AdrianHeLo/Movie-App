@@ -5,12 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.ui.fragments.PopularFragment">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.adrianhelo.movieapp.presentation.viewmodel.MovieViewModel" />
-    </data>
-
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/popular_swipe_refresh_container"
         android:layout_width="match_parent"

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,7 +22,7 @@ class RatedFragment : Fragment() {
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private val movieViewModel: MovieViewModel by viewModels()
     private val seriesViewModel: SeriesViewModel by viewModels()
-    private val movieAdapter = MovieAdapter()
+    private lateinit var movieAdapter: MovieAdapter
     private val seriesAdapter = SeriesAdapter()
 
     override fun onCreateView(
@@ -29,48 +30,75 @@ class RatedFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentRatedBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
-
-        val bundle = arguments?.getString("Query")
-
-        if (bundle != null){
-            displaySeriesView()
-            seriesViewModel.series.observe(viewLifecycleOwner){
-                seriesAdapter.submitList(it)
-            }
-            seriesViewModel.getTopRatedSeries(getString(R.string.api_key))
-        }else{
-            displayMoviesView()
-            movieViewModel.movies.observe(viewLifecycleOwner){
-                movieAdapter.submitList(it)
-            }
-            movieViewModel.getTopRatedMovies(getString(R.string.api_key))
-        }
-
         swipeRefreshLayout = binding.ratedSwipeRefreshContainer
-        movieViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
-            swipeRefreshLayout.isRefreshing = isLoading
-        }
-        seriesViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
-            swipeRefreshLayout.isRefreshing = isLoading
-        }
-        swipeRefreshLayout.setOnRefreshListener {
-            if (bundle != null){
-                seriesViewModel.getTopRatedSeries(getString(R.string.api_key))
-            }else{
-                movieViewModel.getTopRatedMovies(getString(R.string.api_key))
-            }
+
+        val queryType = arguments?.getString("Query")
+
+        movieAdapter = MovieAdapter{ movieId ->
+            getMovieId(movieId)
         }
 
+        if (queryType != null){
+            setupSeriesObserver()
+        }else{
+            setupMoviesObserver()
+        }
+
+        setupSwipeRefresh(queryType)
         return binding.root
-    }
-
-    private fun displayMoviesView() {
-        binding.ratedFragmentRecyclerView.adapter = movieAdapter
-        binding.ratedFragmentRecyclerView.setLayoutManager(GridLayoutManager(requireContext(), 2))
     }
 
     private fun displaySeriesView() {
         binding.ratedFragmentRecyclerView.adapter = seriesAdapter
         binding.ratedFragmentRecyclerView.setLayoutManager(GridLayoutManager(requireContext(), 2))
+    }
+
+    private fun setupMoviesObserver() {
+        binding.ratedFragmentRecyclerView.adapter = movieAdapter
+        binding.ratedFragmentRecyclerView.setLayoutManager(GridLayoutManager(requireContext(), 2))
+
+        movieViewModel.movies.observe(viewLifecycleOwner){
+            movieAdapter.submitList(it)
+        }
+        movieViewModel.getTopRatedMovies(getString(R.string.api_key))
+
+        movieViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            swipeRefreshLayout.isRefreshing = isLoading
+        }
+    }
+
+    private fun setupSeriesObserver() {
+        binding.ratedFragmentRecyclerView.adapter = seriesAdapter
+        binding.ratedFragmentRecyclerView.setLayoutManager(GridLayoutManager(requireContext(), 2))
+
+        seriesViewModel.series.observe(viewLifecycleOwner){
+            seriesAdapter.submitList(it)
+        }
+        seriesViewModel.getTopRatedSeries(getString(R.string.api_key))
+
+        seriesViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            swipeRefreshLayout.isRefreshing = isLoading
+        }
+    }
+
+    private fun setupSwipeRefresh(queryType: String?) {
+        binding.ratedSwipeRefreshContainer.setOnRefreshListener {
+            if (queryType == "Series") {
+                seriesViewModel.getTopRatedSeries(getString(R.string.api_key))
+            } else {
+                movieViewModel.getTopRatedMovies(getString(R.string.api_key))
+            }
+        }
+    }
+
+    private fun getMovieId(movieID: Int) {
+        val id = Bundle()
+        id.putInt("MOVIE_ID", movieID)
+        val detailFragment = MovieDetailsFragment()
+        detailFragment.arguments = id
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, detailFragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
