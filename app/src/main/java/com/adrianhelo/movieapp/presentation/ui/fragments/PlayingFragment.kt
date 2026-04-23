@@ -42,8 +42,7 @@ class PlayingFragment : Fragment() {
         }
 
         seriesAdapter = SeriesAdapter { seriesId ->
-            Toast.makeText(context, "SeriesId: $seriesId", Toast.LENGTH_LONG).show()
-            //getSeriesId(seriesId)
+            getSeriesId(seriesId)
         }
 
         if (queryType != null){
@@ -98,6 +97,17 @@ class PlayingFragment : Fragment() {
         val id = Bundle()
         id.putInt("MOVIE_ID", movieID)
         val detailFragment = MovieDetailsFragment()
+        detailFragment.arguments = id
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, detailFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun getSeriesId(seriesId: Int) {
+        val id = Bundle()
+        id.putInt("SERIE_ID", seriesId)
+        val detailFragment = SeriesDetailsFragment()
         detailFragment.arguments = id
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, detailFragment)
