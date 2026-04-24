@@ -6,9 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridLayout
+import android.widget.LinearLayout
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.adrianhelo.movieapp.R
+import com.adrianhelo.movieapp.data.model.Seasons
 import com.adrianhelo.movieapp.databinding.FragmentSeriesDetailsBinding
+import com.adrianhelo.movieapp.presentation.adapter.SeasonsAdapter
 import com.adrianhelo.movieapp.presentation.viewmodel.SeriesViewModel
 import com.bumptech.glide.Glide
 
@@ -43,7 +51,7 @@ class SeriesDetailsFragment : Fragment() {
 
             if (seriesDetails != null) {
                 val listOfGenres = ArrayList<String>()
-                for (i in 1 until seriesDetails.seriesGenres.size){
+                for (i in 0 until seriesDetails.seriesGenres.size){
                     val item = seriesDetails.seriesGenres[i].name
                     listOfGenres.add(item)
                 }
@@ -58,6 +66,14 @@ class SeriesDetailsFragment : Fragment() {
 
             val imageUrl = "https://image.tmdb.org/t/p/w500${seriesDetails?.seriesPosterPath}"
             Glide.with(this).load(imageUrl).into(binding.imageSeriesDetails)
+
+            seriesDetails?.seasons?.let { setupViewPager(it) }
         }
+    }
+
+    private fun setupViewPager(seasonList: List<Seasons>){
+        val seasonAdapter = SeasonsAdapter(seasonList)
+        binding.recyclerContainer.adapter = seasonAdapter
+        binding.recyclerContainer.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
     }
 }

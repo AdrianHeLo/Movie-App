@@ -16,10 +16,6 @@ data class Seasons(
     @Expose
     val seasonsPosterPath: String,
 
-    @SerializedName("season_number")
-    @Expose
-    val seasonsNumber: Int,
-
     @SerializedName("vote_average")
     @Expose
     val seriesAverage: Double,
