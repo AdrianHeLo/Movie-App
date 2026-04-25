@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.adrianhelo.movieapp.R
 import com.adrianhelo.movieapp.data.model.Series
-import com.adrianhelo.movieapp.databinding.MovieItemListBinding
+import com.adrianhelo.movieapp.databinding.SeriesItemListBinding
 import com.bumptech.glide.Glide
 
 class SeriesAdapter(val onSeriesClick: (Int)-> Unit): RecyclerView.Adapter<SeriesAdapter.ViewHolder>() {
@@ -18,20 +18,20 @@ class SeriesAdapter(val onSeriesClick: (Int)-> Unit): RecyclerView.Adapter<Serie
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(private val itemListBinding: MovieItemListBinding): RecyclerView.ViewHolder(itemListBinding.root) {
+    inner class ViewHolder(private val itemListBinding: SeriesItemListBinding): RecyclerView.ViewHolder(itemListBinding.root) {
         fun bind(series: Series){
-            itemListBinding.titleMovieItemList.text = series.seriesName
-            itemListBinding.averageMovieItemList.text = series.seriesVoteAverage.toString()
+            itemListBinding.nameSeriesItemList.text = series.seriesName
+            itemListBinding.averageSeriesItemList.text = series.seriesVoteAverage.toString()
             val imageUrl = "https://image.tmdb.org/t/p/w500${series.seriesPosterPath}"
-            Glide.with(itemListBinding.imageMovieItemList.context)
+            Glide.with(itemListBinding.imageSeriesItemList.context)
                 .load(imageUrl)
-                .into(itemListBinding.imageMovieItemList)
+                .into(itemListBinding.imageSeriesItemList)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding: MovieItemListBinding = DataBindingUtil.inflate(layoutInflater, R.layout.movie_item_list, parent, false)
+        val binding: SeriesItemListBinding = DataBindingUtil.inflate(layoutInflater, R.layout.series_item_list, parent, false)
         return ViewHolder(binding)
     }
 
