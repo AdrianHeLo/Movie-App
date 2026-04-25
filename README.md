@@ -34,7 +34,7 @@
 
 ## 🎥 Demo
 <p align="center">
-  <img src="https://github.com/AdrianHeLo/Movie-App/blob/main/app/src/main/res/raw/Movie%20App%20Demo.gif" width="400"/>
+  <img src="https://github.com/AdrianHeLo/Movie-App/blob/main/app/src/main/res/raw/movie_app_demo.gif" width="400"/>
 </p>
 
 ## 👤 Autor
