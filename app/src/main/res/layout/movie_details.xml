@@ -99,13 +99,13 @@
 
         <TextView
             android:id="@+id/genre_media_details"
-            android:layout_width="wrap_content"
+            android:layout_width="125dp"
             android:layout_height="wrap_content"
             android:text="Horror"
             android:textSize="15sp"
             android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@+id/genre"
-            app:layout_constraintStart_toStartOf="@+id/genre"/>
+            app:layout_constraintTop_toTopOf="@+id/genre"
+            app:layout_constraintStart_toEndOf="@+id/genre"/>
 
         <TextView
             android:id="@+id/tagline_media_details"
