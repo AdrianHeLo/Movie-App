@@ -40,12 +40,8 @@ class MovieDetailsFragment : Fragment() {
             binding.taglineMediaDetails.text = movieDetails?.mediaTagline
 
             if (movieDetails != null) {
-                val listOfGenres = ArrayList<String>()
-                for (i in 1 until movieDetails.mediaGenres.size){
-                    val item = movieDetails.mediaGenres[i].name
-                    listOfGenres.add(item)
-                }
-                binding.genreMediaDetails.text = listOfGenres.toString()
+                val formattedGenre = movieDetails.mediaGenres.joinToString(", "){it.name}
+                binding.genreMediaDetails.text = formattedGenre
             }
 
             val voteAverage = movieDetails?.mediaAverage

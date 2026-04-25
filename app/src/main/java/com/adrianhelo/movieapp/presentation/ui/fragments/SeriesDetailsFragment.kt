@@ -6,14 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
-import android.widget.LinearLayout
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
-import com.adrianhelo.movieapp.R
 import com.adrianhelo.movieapp.data.model.Seasons
 import com.adrianhelo.movieapp.databinding.FragmentSeriesDetailsBinding
 import com.adrianhelo.movieapp.presentation.adapter.SeasonsAdapter
@@ -50,12 +45,8 @@ class SeriesDetailsFragment : Fragment() {
             binding.seasonsSeriesDetails.text = seriesDetails?.numberOfSeasons.toString()
 
             if (seriesDetails != null) {
-                val listOfGenres = ArrayList<String>()
-                for (i in 0 until seriesDetails.seriesGenres.size){
-                    val item = seriesDetails.seriesGenres[i].name
-                    listOfGenres.add(item)
-                }
-                binding.genreMediaDetails.text = listOfGenres.toString()
+                val formattedGenres = seriesDetails.seriesGenres.joinToString(", "){it.name}
+                binding.genreMediaDetails.text = formattedGenres
             }
 
             val voteAverage = seriesDetails?.seriesAverage
