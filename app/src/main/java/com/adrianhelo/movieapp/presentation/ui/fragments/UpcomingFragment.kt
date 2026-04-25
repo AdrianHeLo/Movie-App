@@ -23,7 +23,7 @@ class UpcomingFragment : Fragment() {
     private val movieViewModel: MovieViewModel by viewModels()
     private val seriesViewModel: SeriesViewModel by viewModels()
     private lateinit var movieAdapter: MovieAdapter
-    private val seriesAdapter = SeriesAdapter()
+    private lateinit var seriesAdapter: SeriesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,6 +36,10 @@ class UpcomingFragment : Fragment() {
 
         movieAdapter = MovieAdapter{ movieId ->
             getMovieId(movieId)
+        }
+
+        seriesAdapter = SeriesAdapter { seriesId ->
+            getSeriesId(seriesId)
         }
 
         if (queryType != null){
@@ -90,6 +94,17 @@ class UpcomingFragment : Fragment() {
         val id = Bundle()
         id.putInt("MOVIE_ID", movieID)
         val detailFragment = MovieDetailsFragment()
+        detailFragment.arguments = id
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, detailFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun getSeriesId(seriesId: Int) {
+        val id = Bundle()
+        id.putInt("SERIE_ID", seriesId)
+        val detailFragment = SeriesDetailsFragment()
         detailFragment.arguments = id
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, detailFragment)

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,6 +16,7 @@ import com.adrianhelo.movieapp.presentation.adapter.MovieAdapter
 import com.adrianhelo.movieapp.presentation.adapter.SeriesAdapter
 import com.adrianhelo.movieapp.presentation.viewmodel.MovieViewModel
 import com.adrianhelo.movieapp.presentation.viewmodel.SeriesViewModel
+import kotlin.concurrent.thread
 
 class PopularFragment : Fragment() {
 
@@ -23,7 +25,7 @@ class PopularFragment : Fragment() {
     private val movieViewModel: MovieViewModel by viewModels()
     private val seriesViewModel: SeriesViewModel by viewModels()
     private lateinit var movieAdapter: MovieAdapter
-    private val seriesAdapter = SeriesAdapter()
+    private lateinit var seriesAdapter: SeriesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -36,6 +38,10 @@ class PopularFragment : Fragment() {
 
         movieAdapter = MovieAdapter{ movieId ->
             getMovieId(movieId)
+        }
+
+        seriesAdapter = SeriesAdapter { seriesId ->
+            getSeriesId(seriesId)
         }
 
         if (queryType != null){
@@ -90,6 +96,17 @@ class PopularFragment : Fragment() {
         val id = Bundle()
         id.putInt("MOVIE_ID", movieID)
         val detailFragment = MovieDetailsFragment()
+        detailFragment.arguments = id
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, detailFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun getSeriesId(seriesId: Int) {
+        val id = Bundle()
+        id.putInt("SERIE_ID", seriesId)
+        val detailFragment = SeriesDetailsFragment()
         detailFragment.arguments = id
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, detailFragment)

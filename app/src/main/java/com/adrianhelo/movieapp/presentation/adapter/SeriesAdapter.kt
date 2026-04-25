@@ -9,7 +9,7 @@ import com.adrianhelo.movieapp.data.model.Series
 import com.adrianhelo.movieapp.databinding.MovieItemListBinding
 import com.bumptech.glide.Glide
 
-class SeriesAdapter: RecyclerView.Adapter<SeriesAdapter.ViewHolder>() {
+class SeriesAdapter(val onSeriesClick: (Int)-> Unit): RecyclerView.Adapter<SeriesAdapter.ViewHolder>() {
 
     private var seriesList = listOf<Series>()
 
@@ -31,8 +31,7 @@ class SeriesAdapter: RecyclerView.Adapter<SeriesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding: MovieItemListBinding = DataBindingUtil.inflate(layoutInflater,
-            R.layout.movie_item_list, parent, false)
+        val binding: MovieItemListBinding = DataBindingUtil.inflate(layoutInflater, R.layout.movie_item_list, parent, false)
         return ViewHolder(binding)
     }
 
@@ -41,6 +40,9 @@ class SeriesAdapter: RecyclerView.Adapter<SeriesAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.itemView.setOnClickListener {
+            onSeriesClick(seriesList[position].seriesId)
+        }
         return holder.bind(seriesList[position])
     }
 }

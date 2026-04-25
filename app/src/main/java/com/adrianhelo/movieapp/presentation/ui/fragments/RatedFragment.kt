@@ -23,7 +23,7 @@ class RatedFragment : Fragment() {
     private val movieViewModel: MovieViewModel by viewModels()
     private val seriesViewModel: SeriesViewModel by viewModels()
     private lateinit var movieAdapter: MovieAdapter
-    private val seriesAdapter = SeriesAdapter()
+    private lateinit var seriesAdapter: SeriesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -38,6 +38,10 @@ class RatedFragment : Fragment() {
             getMovieId(movieId)
         }
 
+        seriesAdapter = SeriesAdapter { seriesId ->
+           getSeriesId(seriesId)
+        }
+
         if (queryType != null){
             setupSeriesObserver()
         }else{
@@ -46,11 +50,6 @@ class RatedFragment : Fragment() {
 
         setupSwipeRefresh(queryType)
         return binding.root
-    }
-
-    private fun displaySeriesView() {
-        binding.ratedFragmentRecyclerView.adapter = seriesAdapter
-        binding.ratedFragmentRecyclerView.setLayoutManager(GridLayoutManager(requireContext(), 2))
     }
 
     private fun setupMoviesObserver() {
@@ -95,6 +94,17 @@ class RatedFragment : Fragment() {
         val id = Bundle()
         id.putInt("MOVIE_ID", movieID)
         val detailFragment = MovieDetailsFragment()
+        detailFragment.arguments = id
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, detailFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun getSeriesId(seriesId: Int) {
+        val id = Bundle()
+        id.putInt("SERIE_ID", seriesId)
+        val detailFragment = SeriesDetailsFragment()
         detailFragment.arguments = id
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, detailFragment)
